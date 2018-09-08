@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>watermark on images</title>
+  <script src="scripts/watermark.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  
+  <link href='http://fonts.googleapis.com/css?family=Josefin+Slab|Maven+Pro' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <h1 class="text-center"><a href="/">watermark</a></h1>
+
+	<div style="margin-left:40%">
+		<form id="form1" runat="server">
+			<input type='file' id="imgInput" />
+		</form>
+	</div>
+	
+    <div class="col-xs-12">
+      <div class="example" id="lower-right">
+        <h2>Lower Right</h2>
+        <pre></pre>
+      </div>
+
+      <div class="example" id="lower-left">
+        <h2>Lower Left</h2>
+        <pre></pre>
+      </div>
+
+      <div class="example" id="upper-right">
+        <h2>Upper Right</h2>
+        <pre></pre>
+      </div>
+
+      <div class="example" id="upper-left">
+        <h2>Upper Left</h2>
+        <pre></pre>
+      </div>
+
+      <div class="example" id="center">
+        <h2>Center</h2>
+        <pre></pre>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+  
+  function generateWatermarkImages(imgSrc, logo, alpha){
+  
+    // lower right positioning
+    watermark([imgSrc, logo])
+      .image(watermark.image.lowerRight(alpha))
+      .then(function (img) {
+        var pre = document.querySelector('#lower-right pre');
+        pre.parentNode.insertBefore(img, pre);
+      });
+
+    // lower left positioning
+    watermark([imgSrc, logo])
+      .image(watermark.image.lowerLeft(alpha))
+      .then(function (img) {
+        var pre = document.querySelector('#lower-left pre');
+        pre.parentNode.insertBefore(img, pre);
+      });
+
+    // upper right positioning
+    watermark([imgSrc, logo])
+      .image(watermark.image.upperRight(alpha))
+      .then(function (img) {
+        var pre = document.querySelector('#upper-right pre');
+        pre.parentNode.insertBefore(img, pre);
+      });
+
+    // upper left positioning
+    watermark([imgSrc, logo])
+      .image(watermark.image.upperLeft(alpha))
+      .then(function (img) {
+        var pre = document.querySelector('#upper-left pre');
+        pre.parentNode.insertBefore(img, pre);
+      });
+
+    // upper left positioning
+    watermark([imgSrc, logo])
+      .image(watermark.image.center(alpha))
+      .then(function (img) {
+        var pre = document.querySelector('#center pre');
+        pre.parentNode.insertBefore(img, pre);
+      });
+	}
+	// upload local image
+	function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                //$('#blah').attr('src', e.target.result);
+				var logo = '/img/logo.png';
+				var alpha = 1;
+				generateWatermarkImages(e.target.result, logo);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    $("#imgInput").change(function(){
+        readURL(this);
+    });
+  </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>
